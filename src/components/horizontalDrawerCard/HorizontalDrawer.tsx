@@ -29,7 +29,7 @@ export default function HorizontalDrawer() {
         justifyContent={"left"}
         alignItems="left"
       >
-        <Typography variant="h3" style={{paddingBottom:"20px"}} >Trending</Typography>
+        <Typography variant="h3" style={{paddingBottom:"40px"}} >Trending</Typography>
         <HorizontalScroll />
       </Grid>
     </div>

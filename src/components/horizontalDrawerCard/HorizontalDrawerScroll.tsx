@@ -9,7 +9,6 @@ import usePreventBodyScroll from "./usePreventBodyScroll";
 import { Movies } from "@/atoms/atom";
 import { useRecoilValue } from "recoil";
 import { Movie } from "@/types/types";
-
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 const elemPrefix = "test";

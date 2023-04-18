@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { Paper, Typography } from "@mui/material";
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
 import { useRecoilState, useRecoilValue } from "recoil";
-
+import RatingSmollCircle from "../RatingSmollCircle/RatingSmollCircle";
 export function Card({
   title,
   itemId,
@@ -26,11 +26,14 @@ export function Card({
       height: 210,
       width: 170,
       borderRadius: 10,
+      zIndex: -10,
     },
     image: {
       borderRadius: 10,
     },
+    //
   };
+  console.log(MovieDetails.cinebase_rating, "ratings");
   return (
     <div
       role="button"
@@ -51,15 +54,15 @@ export function Card({
           style={styles.image}
         />
       </Paper>
+      <RatingSmollCircle value={MovieDetails.cinebase_rating} />
       <div>
         <Typography fontWeight={900} style={{ paddingLeft: "5px" }}>
           {title}
         </Typography>
-        <div style={{ backgroundColor: visible ? "transparent" : "gray" }}>
-          visible: {JSON.stringify(visible)}
-        </div>
+        <div
+          style={{ backgroundColor: visible ? "transparent" : "gray" }}
+        ></div>
       </div>
-
       {/* <div
         style={{
           backgroundColor: "bisque",

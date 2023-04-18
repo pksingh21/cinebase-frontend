@@ -10,7 +10,7 @@
 .HorizontalDrawerComponent {
   position: absolute;
   left: 50px;
-  top: 650px;
+  top: 600px;
   padding-bottom: 30px;
 }
 @media screen and (max-width: 768px) {
