@@ -1,4 +1,4 @@
-import { credentials, error } from "@/types/types";
+import { Movie, credentials, error } from "@/types/types";
 import { atom } from "recoil";
 export const credentialAtom = atom<credentials>({
   key: "credentialAtomState",
@@ -17,4 +17,8 @@ export const errorAtom = atom<error>({
     errorType: "",
     errorMessage: "",
   },
+});
+export const Movies = atom<Movie[]>({
+  key: "MoviesArray",
+  default: [],
 });

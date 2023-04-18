@@ -6,6 +6,9 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 import { Card } from "@/components/MovieCard/MovieCard";
 
 import usePreventBodyScroll from "./usePreventBodyScroll";
+import { Movies } from "@/atoms/atom";
+import { useRecoilValue } from "recoil";
+import { Movie } from "@/types/types";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
@@ -19,9 +22,6 @@ const getItems = () =>
 
 function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
   const isTouchpad = Math.abs(ev.deltaX) > 1;
-  console.log(ev.deltaX, "ev.deltaX");
-  console.log(ev.deltaY, "ev.deltaX");
-  console.log(isTouchpad, "isTouchpad");
   if (isTouchpad) {
     ev.stopPropagation();
     return;
@@ -37,18 +37,26 @@ function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
 export default function HorizontalScroll() {
   const [items] = React.useState(getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
-
+  const AllMovies = useRecoilValue(Movies);
+  const testtingMovies: Movie[] = [];
+  // copy AllMovies 20 times
+  for (let i = 0; i < 20; i++) {
+    testtingMovies.push(...AllMovies);
+  }
   return (
     <>
-      <div className="example" style={{ paddingTop: "100px", width: "100vw" }}>
+      <div className="example" style={{ width: "90vw" }}>
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <ScrollMenu onWheel={onWheel}>
-            {items.map(({ id }) => (
-              <Card
-                title={id}
-                itemId={id} // NOTE: itemId is required for track items
-                key={id}
-              />
+            {testtingMovies.map((Movies, indx) => (
+              <div style={{ marginRight: "50px" }}>
+                <Card
+                  title={Movies.title}
+                  itemId={Movies.title + `${indx}`} // NOTE: itemId is required for track items
+                  MovieDetails={Movies}
+                  key={Movies.id}
+                />
+              </div>
             ))}
           </ScrollMenu>
         </div>
