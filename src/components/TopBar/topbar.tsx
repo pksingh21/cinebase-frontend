@@ -42,7 +42,7 @@ function ResponsiveAppBar() {
   };
   const session = useSession();
   return (
-    <AppBar position="static" className="topAppBar">
+    <AppBar position="fixed" className="topAppBar">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Topbar from "@/components/TopBar/topbar";
 import { Stack } from "@mui/material";
 import MiddleSearchBar from "@/components/middleSearchBar/middleSearchBar";
+import HorizontalDrawer from "@/components/horizontalDrawerCard/HorizontalDrawer";
 export default function Dashboard() {
   const session = useSession();
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function Dashboard() {
       <Stack spacing={2}>
         <Topbar />
         <MiddleSearchBar />
+        <HorizontalDrawer />
       </Stack>
     );
   }

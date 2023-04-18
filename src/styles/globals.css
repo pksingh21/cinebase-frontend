@@ -7,3 +7,28 @@
     rgba(221, 0, 0, 1) 100%
   );
 }
+.HorizontalDrawerComponent {
+  position: absolute;
+  left: 50px;
+  top: 650px;
+}
+@media screen and (max-width: 768px) {
+  .HorizontalDrawerComponent {
+    left: 20px; /* replace with desired distance from left boundary for smaller screens */
+    top: 650px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .HorizontalDrawerComponent {
+    left: 20px; /* replace with desired distance from left boundary for even smaller screens */
+    top: 650px;
+  }
+}
+@media screen and (max-width: 390px) {
+  .HorizontalDrawerComponent {
+    left: 20px; /* replace with desired distance from left boundary for even smaller screens */
+    left: 20px; /* replace with desired distance from left boundary for even smaller screens */
+    top: 670px;
+  }
+}
