@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   Movie,
   getAllMoviesRequest,
@@ -27,6 +27,10 @@ export default async function handler(
   res: NextApiResponse<responseObjectgetAllMovieRequest>
 ) {
   const body: getAllMoviesRequest = req.body;
-  const result = await getAllMovies(body);
-  res.status(200).json(result);
+  try {
+    const result = await getAllMovies(body);
+    res.status(200).json(result);
+  } catch (err: any) {
+    res.status(500).send(err.message);
+  }
 }

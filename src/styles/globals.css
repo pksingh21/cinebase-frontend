@@ -42,3 +42,9 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.MovieCardTitle {
+  padding-left: 5px;
+  cursor: pointer;
+}
+/* add on hover color change */

@@ -39,6 +39,9 @@ export interface getAllMoviesRequest {
   released_before?: Date;
   title?: string;
 }
+export interface getMovieByIdRequest {
+  MovieId: number;
+}
 export interface responseObjectgetAllMovieRequest {
   count: number;
   next: string;

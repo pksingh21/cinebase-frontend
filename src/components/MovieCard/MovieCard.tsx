@@ -1,12 +1,11 @@
-import { Movies } from "@/atoms/atom";
 import { Movie, getAllMoviesRequest } from "@/types/types";
-import axios from "axios";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { Paper, Typography } from "@mui/material";
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
-import { useRecoilState, useRecoilValue } from "recoil";
 import RatingSmollCircle from "../RatingSmollCircle/RatingSmollCircle";
+import { ButtonBase } from "@mui/material";
+import { useRouter } from "next/router";
 export function Card({
   title,
   itemId,
@@ -16,8 +15,9 @@ export function Card({
   itemId: string;
   MovieDetails: Movie;
 }) {
-  const visibility = React.useContext(VisibilityContext);
-  const visible = visibility.isItemVisible(itemId);
+  // const visibility = React.useContext(VisibilityContext);
+  const router = useRouter();
+  // const visible = visibility.isItemVisible(itemId);
   const styles = {
     paper: {
       display: "flex",
@@ -33,7 +33,9 @@ export function Card({
     },
     //
   };
-  console.log(MovieDetails.cinebase_rating, "ratings");
+  function replaceSpacesWithHyphens(inputString: string): string {
+    return inputString.replace(/ /g, "-");
+  }
   return (
     <div
       role="button"
@@ -44,6 +46,9 @@ export function Card({
         userSelect: "none",
       }}
       tabIndex={0}
+      onClick={() => {
+        console.log("image item click");
+      }}
     >
       <Paper elevation={5} style={styles.paper}>
         <Image
@@ -56,19 +61,21 @@ export function Card({
       </Paper>
       <RatingSmollCircle value={MovieDetails.cinebase_rating} />
       <div>
-        <Typography fontWeight={900} style={{ paddingLeft: "5px" }}>
-          {title}
-        </Typography>
-        <div
-          style={{ backgroundColor: visible ? "transparent" : "gray" }}
-        ></div>
+        <ButtonBase
+          style={{ textAlign: "left" }}
+          onClick={() => {
+            router.push(
+              `/main/movie/${replaceSpacesWithHyphens(
+                MovieDetails.title + " " + MovieDetails.id
+              )}`
+            );
+          }}
+        >
+          <Typography fontWeight={900} className="MovieCardTitle">
+            {title}
+          </Typography>
+        </ButtonBase>
       </div>
-      {/* <div
-        style={{
-          backgroundColor: "bisque",
-          height: "200px",
-        }}
-      /> */}
     </div>
   );
 }

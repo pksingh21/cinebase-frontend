@@ -14,7 +14,10 @@ export default function HorizontalDrawer() {
     const result = await axios.get("/api/movies/getAllMovies", {
       params: body,
     });
-    setMovieState(result.data.results);
+    if (result.status == 200) setMovieState(result.data.results);
+    else {
+      console.log("Error in getting movies");
+    }
   }
   useEffect(() => {
     if (AllMoviesState.length === 0) {
@@ -29,7 +32,9 @@ export default function HorizontalDrawer() {
         justifyContent={"left"}
         alignItems="left"
       >
-        <Typography variant="h3" style={{paddingBottom:"40px"}} >Trending</Typography>
+        <Typography variant="h3" style={{ paddingBottom: "40px" }}>
+          Trending
+        </Typography>
         <HorizontalScroll />
       </Grid>
     </div>
