@@ -6,7 +6,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useRecoilState } from "recoil";
 import { errorAtom } from "@/atoms/atom";
 import { useSession } from "next-auth/react";
-
+import { useRouter } from "next/router";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
@@ -16,6 +16,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export default function CustomizedSnackbars() {
   const [errorAtomState, setErrorAtomState] = useRecoilState(errorAtom);
+  const [snackbar, setSnackBar] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(
+    errorAtomState.errorMessage
+  );
+  React.useEffect(() => {
+    setSnackBar(errorAtomState.isError);
+    if (errorMessage.length === 0) {
+      setErrorMessage(errorAtomState.errorMessage);
+    }
+  }, [errorAtomState.isError]);
+  const router = useRouter();
   console.log(errorAtomState, "error Atom State in snackbar");
   const handleClick = () => {
     setErrorAtomState({ isError: false, errorMessage: "", errorType: "" });
@@ -29,21 +40,13 @@ export default function CustomizedSnackbars() {
       return;
     }
     setErrorAtomState({ isError: false, errorMessage: "", errorType: "" });
+    setSnackBar(false);
   };
-
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar
-        open={errorAtomState.isError}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={errorAtomState.isError ? "error" : "success"}
-          sx={{ width: "100%" }}
-        >
-          {errorAtomState.isError ? errorAtomState.errorMessage : "Success"}
+      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={"error"} sx={{ width: "100%" }}>
+          {errorMessage}
         </Alert>
       </Snackbar>
     </Stack>

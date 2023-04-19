@@ -1,35 +1,55 @@
-import { CircularProgress, Typography } from "@mui/material";
-export default function RatingSmollCircle({ value }: { value: number }) {
-  console.log(value, "value called for god");
+import * as React from "react";
+import CircularProgress, {
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & { value: number }
+) {
   return (
-    <div
-      style={{
-        zIndex: 2,
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        top: "-14px",
+        left: "-5px",
+        backgroundColor: "black",
+        borderRadius: "50%",
       }}
     >
       <CircularProgress
-        variant="determinate"
-        value={value}
-        size={30}
         sx={{
-          color: "#FFC107",
-          marginTop: "-30px",
-          backgroundColor: "blue",
-          borderRadius: "50%",
-          zIndex: 0,
+          color:
+            props.value > 75 ? "green" : props.value > 40 ? "yellow" : "red",
         }}
+        variant="determinate"
+        {...props}
       />
-      <div
-        // variant="caption"
-        style={{
-          color: "red",
-          marginLeft: "-10px",
-          marginTop: "-30px",
-          zIndex: 99,
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {`${Math.round(value)}%`}
-      </div>
-    </div>
+        <Typography
+          variant="caption"
+          component="div"
+          color="white"
+          fontWeight={900}
+        >{`${Math.round(props.value)}%`}</Typography>
+      </Box>
+    </Box>
   );
+}
+
+export default function CircularStatic({ value }: { value: number }) {
+  return <CircularProgressWithLabel value={value} />;
 }

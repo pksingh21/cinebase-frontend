@@ -15,7 +15,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { credentialAtom, errorAtom } from "@/atoms/atom";
 import Snackbar from "@/components/snackbar/snackbar";
 import { styles } from "@/styles/styles";
+import { useRouter } from "next/router";
 const Login = () => {
+  const router = useRouter();
   const [CredentialAtomState, setCredentialAtomState] =
     useRecoilState(credentialAtom);
   const setErrorAtomState = useSetRecoilState(errorAtom);
@@ -134,6 +136,8 @@ const Login = () => {
                     errorMessage: errorMessage,
                     errorType: CredentialAtomState.signInOrLogin,
                   }));
+                } else {
+                  router.push("/main/main");
                 }
               }}
             >
