@@ -48,3 +48,23 @@ export interface responseObjectgetAllMovieRequest {
   previous: string;
   results: Movie[];
 }
+export interface Cast {
+  id: number;
+  credits_type: string;
+  department: string;
+  job: string;
+  character: string;
+  movieId: number;
+  personId: number;
+}
+export interface Actor {
+  tmbd_id: number;
+  name: string;
+  gender: number;
+  birthday: Date;
+  deathday: Date;
+  known_for_department: string;
+  biography: string;
+  place_of_birth: string;
+  profile_path: string;
+}

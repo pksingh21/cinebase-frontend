@@ -1,4 +1,4 @@
-import { Movie, credentials, error } from "@/types/types";
+import { Actor, Movie, credentials, error } from "@/types/types";
 import { atom } from "recoil";
 export const credentialAtom = atom<credentials>({
   key: "credentialAtomState",

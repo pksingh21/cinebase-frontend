@@ -18,7 +18,7 @@ export default function HorizontalDrawer() {
     });
     if (result.status == 200) setMovieState(result.data.results);
     else {
-      console.log("Error in getting movies");
+      //console.log("Error in getting movies");
     }
   }
   useEffect(() => {

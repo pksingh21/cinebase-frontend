@@ -27,7 +27,7 @@ export default function CustomizedSnackbars() {
     }
   }, [errorAtomState.isError]);
   const router = useRouter();
-  console.log(errorAtomState, "error Atom State in snackbar");
+  //console.log(errorAtomState, "error Atom State in snackbar");
   const handleClick = () => {
     setErrorAtomState({ isError: false, errorMessage: "", errorType: "" });
   };

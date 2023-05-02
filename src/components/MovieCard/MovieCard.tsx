@@ -45,7 +45,7 @@ export function Card({
       }}
       tabIndex={0}
       onClick={() => {
-        console.log("image item click");
+        //console.log("image item click");
         router.push(
           `/main/movie/${replaceSpacesWithHyphens(
             MovieDetails.title + " " + MovieDetails.id

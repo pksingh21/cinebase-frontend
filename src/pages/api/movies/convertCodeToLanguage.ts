@@ -213,12 +213,12 @@ export default async function handler(
   res: NextApiResponse<Language>
 ) {
   const final = req.query;
-  console.log(final, "movie converter");
+  //console.log(final, "movie converter");
   const result = mapChad[final.languageCode as string];
   try {
     res.status(200).json(result);
   } catch (err: any) {
-    console.log("Something went wrong");
+    //console.log("Something went wrong");
     res.status(500).json(err.message);
   }
 }

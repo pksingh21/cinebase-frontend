@@ -1,5 +1,5 @@
 import Topbar from "@/components/TopBar/topbar";
-import { Movie, getMovieByIdRequest } from "@/types/types";
+import { Cast, Movie, getMovieByIdRequest } from "@/types/types";
 import { Grid, Stack, Typography, styled } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -47,6 +47,7 @@ function replaceHyphensWithWhiteSpace(inputString: string): string {
 function DynamicPage() {
   const session = useSession();
   const router = useRouter();
+  const [movieCast, setMovieCast] = React.useState<Cast[]>([]);
   const [screenWidth, setScreenWidth] = React.useState(0);
   React.useEffect(() => {
     function handleResize() {
@@ -62,10 +63,8 @@ function DynamicPage() {
   React.useEffect(() => {
     if (router.isReady) {
       // Code using query
-      console.log(router.query, "inside use effect for router is ready boy");
       singleMovie = replaceHyphensWithWhiteSpace(singleMovie as string);
       // this will set the state before component is mounted
-      console.log(singleMovie, "single movie title");
       setTitle(singleMovie as string);
 
       getMovieById(
@@ -77,7 +76,6 @@ function DynamicPage() {
     Movie | undefined
   >();
   const [MovieLanguage, SetMovieLanugage] = React.useState<string>("");
-  console.log(AllMoviesValue, "All Movies Value");
   async function getMovieById(movId: number) {
     const body: getMovieByIdRequest = { MovieId: movId };
     const result = await axios.get("/api/movies/getMovieById", {
@@ -85,10 +83,8 @@ function DynamicPage() {
     });
     if (result.status == 200) {
       setAllMovieValue(result.data);
-      console.log(result.data);
       const baseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
       const movieLanguageCode = result.data.language;
-      console.log(movieLanguageCode, "movie language code");
       const body: { languageCode: string } = {
         languageCode: movieLanguageCode,
       };
@@ -97,7 +93,11 @@ function DynamicPage() {
           "/api/movies/convertCodeToLanguage",
           { params: body }
         );
-        console.log(actualMovieLang.data.name, "actual movie lang");
+        const movieCast = await axios.get("/api/movies/getMovieCast", {
+          params: { movie: result.data?.id!! },
+        });
+        console.log(result.data, movieCast.data.results, "Movie Cast");
+
         SetMovieLanugage(actualMovieLang.data.name);
       } catch (err) {
         SetMovieLanugage(movieLanguageCode);
@@ -105,7 +105,7 @@ function DynamicPage() {
       }
       setPosterPath(baseURL + result.data.poster_path!!);
     } else {
-      console.log("something went wrong while fetching the movie by id");
+      //console.log("something went wrong while fetching the movie by id");
     }
   }
   const [posterPath, setPosterPath] = React.useState("");
@@ -119,7 +119,7 @@ function DynamicPage() {
     router.replace("/auth/login");
     return;
   }
-  console.log(AllMoviesValue, "All Movies Value");
+  //console.log(AllMoviesValue, "All Movies Value");
   return (
     <div>
       <Topbar />
