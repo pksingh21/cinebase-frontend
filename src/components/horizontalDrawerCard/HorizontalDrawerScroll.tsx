@@ -39,7 +39,7 @@ export default function HorizontalScroll() {
   const AllMovies = useRecoilValue(Movies);
   const testtingMovies: Movie[] = [];
   // copy AllMovies 20 times
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 1; i++) {
     testtingMovies.push(...AllMovies);
   }
   return (

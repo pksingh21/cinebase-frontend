@@ -15,9 +15,7 @@ export function Card({
   itemId: string;
   MovieDetails: Movie;
 }) {
-  // const visibility = React.useContext(VisibilityContext);
   const router = useRouter();
-  // const visible = visibility.isItemVisible(itemId);
   const styles = {
     paper: {
       display: "flex",
@@ -48,18 +46,25 @@ export function Card({
       tabIndex={0}
       onClick={() => {
         console.log("image item click");
+        router.push(
+          `/main/movie/${replaceSpacesWithHyphens(
+            MovieDetails.title + " " + MovieDetails.id
+          )}`
+        );
       }}
     >
       <Paper elevation={5} style={styles.paper}>
         <Image
           alt="Picture of the Movie"
-          src={MovieDetails.poster_path!!}
+          src={
+            "https://image.tmdb.org/t/p/original" + MovieDetails.poster_path!!
+          }
           width={160}
           height={200}
           style={styles.image}
         />
       </Paper>
-      <RatingSmollCircle value={MovieDetails.cinebase_rating} />
+      <RatingSmollCircle value={MovieDetails.cinebase_rating * 10} />
       <div>
         <ButtonBase
           style={{ textAlign: "left" }}

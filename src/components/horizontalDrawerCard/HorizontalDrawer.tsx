@@ -9,8 +9,10 @@ import { useRecoilState } from "recoil";
 export default function HorizontalDrawer() {
   const [AllMoviesState, setMovieState] = useRecoilState(Movies);
   async function getMovieData() {
-    const body: getAllMoviesRequest = {};
-    body.limit = 1;
+    const body: getAllMoviesRequest = {
+      limit: 20,
+    };
+    // body.limit = 1;
     const result = await axios.get("/api/movies/getAllMovies", {
       params: body,
     });

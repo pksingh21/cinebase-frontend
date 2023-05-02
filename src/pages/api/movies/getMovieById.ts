@@ -26,7 +26,6 @@ function fetchData(
   res: NextApiResponse<responseObjectgetAllMovieRequest>
 ): getMovieByIdRequest {
   const movieData = querystring.parse(req.url!!.split("?")[1]);
-  console.log(movieData, "hmm");
   const MovieId: getMovieByIdRequest = {
     MovieId: parseInt(movieData.MovieId as string),
   };
