@@ -1,6 +1,4 @@
-import {
-  responseObjectgetAllMovieRequest,
-} from "@/types/types";
+import { responseObjectgetAllMovieRequest } from "@/types/types";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -9,7 +7,7 @@ async function getUserInfo(body: {
 }): Promise<responseObjectgetAllMovieRequest> {
   const QueryBuilder = body.id;
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/profiles/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/profiles/${QueryBuilder}`
   );
 
   return response.data;

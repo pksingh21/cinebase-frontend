@@ -44,8 +44,8 @@ export default function MovieReview() {
           <NewCommentCard />
         </Grid>
         <Grid item xs={12} sm={6}>
-          {AllReviews.map((Review) => {
-            return <GenericCommentCard data={Review} />;
+          {AllReviews.map((Review, index) => {
+            return <GenericCommentCard key={index} data={Review} />;
           })}
         </Grid>
       </Grid>

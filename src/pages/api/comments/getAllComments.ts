@@ -16,9 +16,9 @@ async function getAllMovieById(body: any): Promise<any> {
   Object.keys(body).forEach((key) => {
     QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}`;
   });
-  console.log(QueryBuilder,"Query Builder")
+  console.log(QueryBuilder, "Query Builder");
   const response = await axios.get<any>(
-    `http://localhost:8000/api/reviews/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/reviews/${QueryBuilder}`
   );
 
   return response.data;

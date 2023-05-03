@@ -15,7 +15,7 @@ async function getMovieCast(
   });
   ////////console.log(QueryBuilder, "Query final");
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/credits/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/credits/${QueryBuilder}`
   );
 
   return response.data;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Paper,
   Avatar,
@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { credentialAtom, errorAtom } from "@/atoms/atom";
 import Snackbar from "@/components/snackbar/snackbar";
@@ -18,6 +18,12 @@ import { styles } from "@/styles/styles";
 import { useRouter } from "next/router";
 const Login = () => {
   const router = useRouter();
+  const session = useSession();
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.push("/main/main");
+    }
+  }, [session,router]);
   const [CredentialAtomState, setCredentialAtomState] =
     useRecoilState(credentialAtom);
   const setErrorAtomState = useSetRecoilState(errorAtom);

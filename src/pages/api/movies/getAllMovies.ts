@@ -18,7 +18,7 @@ async function getAllMovies(
     QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}&`;
   });
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/movies/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/movies/${QueryBuilder}`
   );
 
   return response.data;

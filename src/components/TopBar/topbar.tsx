@@ -14,9 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { styles } from "@/styles/styles";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
-const pages = ["Movies", "TV Shows", "People", "About"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+const pages = [""];
+const settings = ["Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -41,6 +42,7 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
   const session = useSession();
+  const router = useRouter();
   return (
     <AppBar position="fixed" className="topAppBar">
       <Container maxWidth="xl">
@@ -145,7 +147,17 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center">
+                    <Button
+                      fullWidth={true}
+                      onClick={() => {
+                        signOut();
+                        router.push("/auth/login");
+                      }}
+                    >
+                      {setting}
+                    </Button>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>

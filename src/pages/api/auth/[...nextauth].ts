@@ -15,20 +15,26 @@ async function loginSignUpHandler(params: {
 }): Promise<any> {
   // return a promise of user
   if (params.signInOrLogin === "login") {
-    const result = axios.post("http://localhost:8000/api/auth/login/", {
-      username: params.username,
-      email: params.emailId,
-      password: params.password,
-    });
+    const result = axios.post(
+      `http://${process.env.BACKEND_URI}/api/auth/login/`,
+      {
+        username: params.username,
+        email: params.emailId,
+        password: params.password,
+      }
+    );
     return result;
   } else {
     //////////console.log("in signup range");
-    const result = axios.post("http://localhost:8000/api/auth/registration/", {
-      username: params.username,
-      email: params.emailId,
-      password1: params.password,
-      password2: params.confirmPassword,
-    });
+    const result = axios.post(
+      `http://${process.env.BACKEND_URI}/api/auth/registration/`,
+      {
+        username: params.username,
+        email: params.emailId,
+        password1: params.password,
+        password2: params.confirmPassword,
+      }
+    );
     const ans = await result;
     //////////console.log(ans, "ans post request");
     return result;
@@ -41,7 +47,7 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt(params: { token: JWT; user: User; account: Account | null }) {
-      const { token, account , user } = params;
+      const { token, account, user } = params;
       if (account) {
         token.apiKey = user.apiKey;
       }

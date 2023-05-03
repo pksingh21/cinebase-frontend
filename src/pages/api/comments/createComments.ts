@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 async function getAllGenres(body: any): Promise<any> {
   const response = await axios.post<any>(
-    `http://localhost:8000/api/reviews/`,
+    `http://${process.env.BACKEND_URI}/api/reviews/`,
     body,
     {
       headers: {

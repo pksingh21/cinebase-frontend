@@ -6,7 +6,7 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function getUserID(body: { apiKey: string }): Promise<any> {
-  const response = await axios.get<any>(`http://localhost:8000/api/auth/user`, {
+  const response = await axios.get<any>(`http://${process.env.BACKEND_URI}/api/auth/user`, {
     headers: {
       Authorization: `Token ${body.apiKey}`,
     },

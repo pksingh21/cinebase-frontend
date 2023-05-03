@@ -15,7 +15,7 @@ async function getAllGenres(
   });
   ////////console.log(QueryBuilder, "Query final");
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/genres/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/genres/${QueryBuilder}`
   );
 
   return response.data;

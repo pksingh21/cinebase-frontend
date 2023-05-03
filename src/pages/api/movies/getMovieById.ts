@@ -16,7 +16,7 @@ async function getAllMovieById(
   props: getMovieByIdRequest
 ): Promise<responseObjectgetAllMovieRequest> {
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/movies/${props.MovieId}`
+    `http://${process.env.BACKEND_URI}/api/movies/${props.MovieId}`
   );
 
   return response.data;

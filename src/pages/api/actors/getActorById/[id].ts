@@ -9,7 +9,7 @@ async function getMovieCast(body: {
 }): Promise<responseObjectgetAllMovieRequest> {
   const QueryBuilder = body.id;
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/people/${QueryBuilder}`
+    `http://${process.env.BACKEND_URI}/api/people/${QueryBuilder}`
   );
 
   return response.data;
