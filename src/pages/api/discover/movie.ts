@@ -32,7 +32,7 @@ export type MovieHit = {
   id: number;
 } & ElasticMovieSource;
 
-export type Data = {
+export type MovieHitData = {
   results: MovieHit[];
 };
 
@@ -42,7 +42,7 @@ export type ErrorData = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data | ErrorData>
+  res: NextApiResponse<MovieHitData | ErrorData>
 ) {
   switch (req.method) {
     case "GET":

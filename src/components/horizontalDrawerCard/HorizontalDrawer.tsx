@@ -4,9 +4,11 @@ import { styles } from "@/styles/styles";
 import { Movies } from "@/atoms/atom";
 import { getAllMoviesRequest } from "@/types/types";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useRecoilState } from "recoil";
+import { DrawerTitleContext } from "@/pages/main/main";
 export default function HorizontalDrawer() {
+  const drawerTitle = useContext(DrawerTitleContext);
   const [AllMoviesState, setMovieState] = useRecoilState(Movies);
   async function getMovieData() {
     const body: getAllMoviesRequest = {
@@ -35,7 +37,7 @@ export default function HorizontalDrawer() {
         // alignItems="left"
       >
         <Typography variant="h3" style={{ paddingBottom: "40px" }}>
-          Trending
+          {drawerTitle}
         </Typography>
         <HorizontalScroll whatToRender="allMovieDetails" />
       </Grid>

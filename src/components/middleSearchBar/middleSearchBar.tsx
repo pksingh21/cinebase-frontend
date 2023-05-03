@@ -1,3 +1,5 @@
+import type { Movie } from "@/types/types";
+import type { MovieHitData } from "@/pages/api/discover/movie";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -6,19 +8,50 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, Stack, Typography } from "@mui/material";
 import { styles } from "@/styles/styles";
+import { Movies } from "@/atoms/atom";
+import { useRecoilState } from "recoil";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
+import apiInstance from "@/services/apiInstance";
 type Props = {
-  randomNumber: number;
+  setSearched?: () => void;
 };
-export default function CustomizedInputBase() {
+export default function CustomizedInputBase({ setSearched }: Props) {
   const min = 1;
   const max = 4;
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
   const [newRandom, setNewRandom] = React.useState(0);
+  const [_, setMovies] = useRecoilState(Movies);
   React.useMemo(() => {
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
     setNewRandom(randomNumber);
   }, [max, min]);
+
+  const handleSearch = async () => {
+    try {
+      const res = await apiInstance.get<MovieHitData>("/discover/movie", {
+        params: {
+          query: searchTerm,
+        },
+      });
+      const hits = res.data.results;
+      const movieDetails = await Promise.all(
+        hits.map((hit) =>
+          apiInstance
+            .get<Movie>("/movies/getMovieById", {
+              params: { MovieId: hit.id },
+            })
+            .then((res) => res.data)
+        )
+      );
+      setMovies(movieDetails);
+      setSearched && setSearched();
+    } catch (e) {
+      console.error("======= Search failed =======");
+      console.error(e);
+    }
+  };
+
   //////////console.log(newRandom);
   return (
     <Grid
@@ -59,7 +92,7 @@ export default function CustomizedInputBase() {
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               fullWidth={true}
-              placeholder="Search Movies, TV Shows, Celebrities, etc."
+              placeholder="Search Movies"
               inputProps={{ "aria-label": "search bar movies" }}
               style={{
                 padding: "10px",
@@ -68,9 +101,23 @@ export default function CustomizedInputBase() {
                 fontSize: "1.5em",
                 color: "rgba(0,0,0,0.5)",
               }}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
+              onKeyDown={async (e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  await handleSearch();
+                }
+              }}
             />
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+            <IconButton
+              type="submit"
+              sx={{ p: "10px" }}
+              aria-label="search"
+              onClick={handleSearch}
+            >
               <SearchIcon />
             </IconButton>
           </Paper>
