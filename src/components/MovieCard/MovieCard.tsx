@@ -66,7 +66,7 @@ export function Card({
       }}
       tabIndex={0}
       onClick={() => {
-        //////console.log("image item click");
+        ////////console.log("image item click");
         if (MovieDetails)
           router.push(
             `/main/movie/${replaceSpacesWithHyphens(
@@ -82,7 +82,7 @@ export function Card({
           // src={"/assets/noImage.jpg"}
           onError={() => {
             setCardImageURL("/assets/noImage.jpg");
-            console.log("image load failed");
+            //console.log("image load failed");
           }}
           width={160}
           height={200}

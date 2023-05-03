@@ -38,7 +38,7 @@ async function getActorById(actorID: number) {
     const result = axios.get(`/api/actors/getActorById/${actorID}`);
     return result;
   } catch (err) {
-    //console.log(err, "cant fetch movie");
+    ////console.log(err, "cant fetch movie");
     return new Promise((resolve, reject) => {
       reject(err);
     });
@@ -51,16 +51,16 @@ async function getAllActors(
   try {
     const actorIds = credits.map((credit) => credit.person);
     const promises = actorIds.map((actorId) => getActorById(actorId));
-    //console.log(promises, "promises promises");
+    ////console.log(promises, "promises promises");
     const results = await Promise.all(promises);
-    //console.log(results, "Results");
+    ////console.log(results, "Results");
     const resultData = results.map((result: any) => {
       return result.data;
     });
-    console.log(resultData, "resultData");
+    //console.log(resultData, "resultData");
     setActorsForMovie(resultData);
   } catch (err) {
-    //console.log(err, "something went wrong while fetching all actors");
+    ////console.log(err, "something went wrong while fetching all actors");
   }
 }
 
@@ -77,19 +77,19 @@ export default function HorizontalScroll(props: { whatToRender: string }) {
 
   React.useEffect(() => {
     getAllActors(credits, setActorsForMovie);
-    console.log("in get all actors method");
+    //console.log("in get all actors method");
   }, [credits]);
   React.useEffect(() => {
-    console.log("in what to render area", props.whatToRender);
+    //console.log("in what to render area", props.whatToRender);
     if (props.whatToRender === "allMovieDetails") {
       setTestingMovies(AllMovies);
     } else {
-      console.log(allActorsForMovie, "All the current actors for movie");
+      //console.log(allActorsForMovie, "All the current actors for movie");
       setTestingMovies(allActorsForMovie);
     }
   }, [props.whatToRender, allActorsForMovie, AllMovies, credits]);
   React.useEffect(() => {
-    console.log(testingMovies, "testing movies");
+    //console.log(testingMovies, "testing movies");
   }, [testingMovies]);
   return (
     <>

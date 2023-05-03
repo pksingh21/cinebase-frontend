@@ -15,17 +15,17 @@ async function getMovieCast(
     const result = await axios.get("/api/credits/getMovieCast", {
       params: queryBody,
     });
-    ////console.log(result.data.results, "alright here we go");
+    //////console.log(result.data.results, "alright here we go");
     setMovieCasts(result.data.results);
   } catch (err) {
-    ////console.log(err, "Error while fetching the movie cast");
+    //////console.log(err, "Error while fetching the movie cast");
   }
 }
 export default function SingleMovieBottom() {
   const [screenWidth, setScreenWidth] = React.useState(0);
   const setMovieCasts = useSetRecoilState(CreditsForMovie);
   const currentMovie = useRecoilValue(CurrentMovie);
-  ////console.log(currentMovie, "Current Movie");
+  //////console.log(currentMovie, "Current Movie");
   React.useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);

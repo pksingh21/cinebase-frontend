@@ -9,11 +9,11 @@ async function getAllGenres(
   body: getAllMoviesRequest
 ): Promise<responseObjectgetAllMovieRequest> {
   let QueryBuilder: string = "?";
-  //////console.log(body, "body");
+  ////////console.log(body, "body");
   Object.keys(body).forEach((key) => {
     QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}&`;
   });
-  ////console.log(QueryBuilder, "Query final");
+  //////console.log(QueryBuilder, "Query final");
   const response = await axios.get<responseObjectgetAllMovieRequest>(
     `http://localhost:8000/api/genres/${QueryBuilder}`
   );
@@ -25,7 +25,7 @@ export default async function handler(
   res: NextApiResponse<responseObjectgetAllMovieRequest>
 ) {
   const body = req.query;
-  ////console.log(body);
+  //////console.log(body);
   try {
     const result = await getAllGenres(body);
     res.status(200).json(result);

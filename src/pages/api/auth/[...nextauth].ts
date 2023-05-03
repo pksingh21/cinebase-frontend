@@ -1,9 +1,11 @@
-import {  credentials, error } from "@/types/types";
-import NextAuth, { NextAuthOptions, User } from "next-auth";
+import { credentials, error } from "@/types/types";
+import NextAuth, { Account, NextAuthOptions, User } from "next-auth";
 import CrendentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { errorAtom } from "@/atoms/atom";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
 async function loginSignUpHandler(params: {
   username: string;
   password: string;
@@ -20,7 +22,7 @@ async function loginSignUpHandler(params: {
     });
     return result;
   } else {
-    //////console.log("in signup range");
+    ////////console.log("in signup range");
     const result = axios.post("http://localhost:8000/api/auth/registration/", {
       username: params.username,
       email: params.emailId,
@@ -28,7 +30,7 @@ async function loginSignUpHandler(params: {
       password2: params.confirmPassword,
     });
     const ans = await result;
-    //////console.log(ans, "ans post request");
+    ////////console.log(ans, "ans post request");
     return result;
   }
 }
@@ -36,6 +38,23 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
+  },
+  callbacks: {
+    async jwt(params: { token: JWT; user: User; account: Account | null }) {
+      const { token, account , user } = params;
+      if (account) {
+        token.apiKey = user.apiKey;
+      }
+      return token;
+    },
+    async session(params: { session: Session; token: JWT; user: User }) {
+      const { session, token, user } = params;
+      if (session) {
+        console.log(user, session, token, "user session token");
+        session.user.apiKey = token.apiKey as string;
+      }
+      return session;
+    },
   },
   providers: [
     CrendentialsProvider({
@@ -52,9 +71,9 @@ const authOptions: NextAuthOptions = {
           emailId,
           signInOrLogin,
         });
-        //////console.log(result.status, "finally after login or signup");
+        ////////console.log(result.status, "finally after login or signup");
         const resultStatus = result.status as number;
-        //////console.log(resultStatus, "result status");
+        ////////console.log(resultStatus, "result status");
         if (
           resultStatus === 200 ||
           resultStatus === 201 ||
@@ -63,14 +82,14 @@ const authOptions: NextAuthOptions = {
           resultStatus === 204
         ) {
           // we are good
+          console.log(result.data, "result data");
           return {
             id: "1",
             name: username,
             email: emailId,
+            apiKey: result.data.key,
           };
         } else {
-          // we are not good
-          //////console.log(result.data, "result data");
           throw new Error("internal server error try again!");
         }
       },

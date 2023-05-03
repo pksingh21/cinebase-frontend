@@ -77,3 +77,10 @@ export interface Credits {
   movie: number;
   person: number;
 }
+export interface Review {
+  id: number;
+  rating: number;
+  review?: string;
+  movie: number;
+  user: number;
+}

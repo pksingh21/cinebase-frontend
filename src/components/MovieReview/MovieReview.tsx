@@ -1,7 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 import GenericCommentCard from "./genericCommentCard";
 import NewCommentCard from "./newCommentCard";
+import { Review } from "@/types/types";
+import React from "react";
 export default function MovieReview() {
+  const [AllReviews, setAllReviews] = React.useState<Review[]>([]);
   return (
     <div>
       <Typography

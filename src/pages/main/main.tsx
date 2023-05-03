@@ -7,7 +7,7 @@ import HorizontalDrawer from "@/components/horizontalDrawerCard/HorizontalDrawer
 export default function Dashboard() {
   const session = useSession();
   const router = useRouter();
-  //////console.log(session);
+  ////////console.log(session);
   if (session.status === "loading") {
     return <h2>Loading</h2>;
   } else if (session.status === "unauthenticated") {
