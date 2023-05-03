@@ -19,7 +19,7 @@ export default function CustomizedInputBase() {
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
     setNewRandom(randomNumber);
   }, [max, min]);
-  //console.log(newRandom);
+  //////console.log(newRandom);
   return (
     <Grid
       container
@@ -35,7 +35,7 @@ export default function CustomizedInputBase() {
         fill={false}
         style={{ zIndex: -2, position: "fixed" }}
         width={`1920`}
-        height={`600`}
+        height={`620`}
       />
 
       <Grid item>

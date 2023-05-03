@@ -1,21 +1,16 @@
 import {
   getAllMoviesRequest,
-  responseObjectgetAllMovieRequest
+  responseObjectgetAllMovieRequest,
 } from "@/types/types";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-async function getAllGenres(
-  body: getAllMoviesRequest
-): Promise<responseObjectgetAllMovieRequest> {
-  let QueryBuilder: string = "?";
-  //////console.log(body, "body");
-  Object.keys(body).forEach((key) => {
-    QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}&`;
-  });
-  ////console.log(QueryBuilder, "Query final");
+async function getMovieCast(body: {
+  [key: string]: string | string[] | undefined;
+}): Promise<responseObjectgetAllMovieRequest> {
+  const QueryBuilder = body.id;
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/genres/${QueryBuilder}`
+    `http://localhost:8000/api/people/${QueryBuilder}`
   );
 
   return response.data;
@@ -25,9 +20,10 @@ export default async function handler(
   res: NextApiResponse<responseObjectgetAllMovieRequest>
 ) {
   const body = req.query;
-  ////console.log(body);
+  //console.log(req);
   try {
-    const result = await getAllGenres(body);
+    const result = await getMovieCast(body);
+    // //console.log(result,"Result for actor");
     res.status(200).json(result);
   } catch (err: any) {
     res.status(500).send(err.message);

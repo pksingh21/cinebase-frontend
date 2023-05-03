@@ -37,7 +37,10 @@ export const CreditsForMovie = atom<Credits[]>({
   key: "CreditsForAMovie",
   default: [],
 });
-
+export const ActorsForCurrentMovie = atom<Actor[]>({
+  key: "ActorsForCurrentMovie",
+  default: [],
+});
 export const CurrentMovie = atom<Movie>({
   key: "CurrentMovie",
   default: {

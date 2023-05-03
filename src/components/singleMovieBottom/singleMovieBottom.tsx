@@ -1,20 +1,38 @@
-import { Grid, Typography } from "@mui/material";
-import Base from "../breadcrumbs/base";
-import getAllGenre from "@/pages/api/genre/getAllGenre";
-import React from "react";
-import HorizontalDrawer from "@/components/singleMovieBottom/horizontalMovieScroll";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { CreditsForMovie } from "@/atoms/atom";
 import { CurrentMovie } from "@/atoms/atom";
+import HorizontalDrawer from "@/components/singleMovieBottom/horizontalMovieScroll";
+import { Credits } from "@/types/types";
+import { Grid, Typography } from "@mui/material";
+import axios from "axios";
+import React from "react";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+async function getMovieCast(
+  currentMovieId: number,
+  setMovieCasts: SetterOrUpdater<Credits[]>
+) {
+  try {
+    const queryBody = { movie: currentMovieId };
+    const result = await axios.get("/api/credits/getMovieCast", {
+      params: queryBody,
+    });
+    ////console.log(result.data.results, "alright here we go");
+    setMovieCasts(result.data.results);
+  } catch (err) {
+    ////console.log(err, "Error while fetching the movie cast");
+  }
+}
 export default function SingleMovieBottom() {
   const [screenWidth, setScreenWidth] = React.useState(0);
+  const setMovieCasts = useSetRecoilState(CreditsForMovie);
   const currentMovie = useRecoilValue(CurrentMovie);
-  console.log(currentMovie, "Current Movie");
+  ////console.log(currentMovie, "Current Movie");
   React.useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
     window.addEventListener("resize", handleResize);
     setScreenWidth(window.innerWidth);
+    getMovieCast(currentMovie.id, setMovieCasts);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 

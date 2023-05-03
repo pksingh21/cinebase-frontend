@@ -1,16 +1,16 @@
+import { AllGenre, CurrentMovie } from "@/atoms/atom";
+import SmollMovieCircle from "@/components/RatingSmollCircle/RatingSmollCircle";
 import Topbar from "@/components/TopBar/topbar";
-import { Cast, Movie, genres, getMovieByIdRequest } from "@/types/types";
-import { Grid, Stack, Typography, styled } from "@mui/material";
+import Base from "@/components/breadcrumbs/base";
+import SingleMovieBottom from "@/components/singleMovieBottom/singleMovieBottom";
+import { Movie, genres, getMovieByIdRequest } from "@/types/types";
+import { Grid, Typography, styled } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import SmollMovieCircle from "@/components/RatingSmollCircle/RatingSmollCircle";
-import Base from "@/components/breadcrumbs/base";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
-import { AllGenre, CurrentMovie } from "@/atoms/atom";
-import SingleMovieBottom from "@/components/singleMovieBottom/singleMovieBottom";
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     paddingTop: "65px",
@@ -55,9 +55,9 @@ function getAllGenre(setGenre: SetterOrUpdater<genres[]>) {
     });
     if (result.status == 200) {
       setGenre(result.data.results);
-      // console.log(result.data.results, "All Genre");
+      // ////console.log(result.data.results, "All Genre");
     } else {
-      console.log("something went wrong while fetching the movie by id");
+      ////console.log("something went wrong while fetching the movie by id");
     }
   }
   getGenre();
@@ -116,18 +116,10 @@ function DynamicPage() {
           "/api/movies/convertCodeToLanguage",
           { params: body }
         );
-        const movieCast = await axios.get("/api/movies/getMovieCast", {
-          params: { movie: result.data?.id!! },
-        });
-        // console.log(result.data, movieCast.data.results, "Movie Cast");
-
         SetMovieLanugage(actualMovieLang.data.name);
         const genresId = result.data.genres as number[];
         let x = [] as genres[];
         for (let i = 0; i < genresId.length; i++) {
-          // console.log(genresId[i] - 1);
-          // console.log(FinalGenre);
-          // console.log(FinalGenre[genresId[i] - 1], "genre id");
           if (FinalGenre.length > 0) x.push(FinalGenre[genresId[i] - 1]);
         }
         setGenreForMovie(x);
@@ -137,7 +129,7 @@ function DynamicPage() {
       }
       setPosterPath(baseURL + result.data.poster_path!!);
     } else {
-      //console.log("something went wrong while fetching the movie by id");
+      ////console.log("something went wrong while fetching the movie by id");
     }
   }
   const [posterPath, setPosterPath] = React.useState("");
@@ -151,7 +143,7 @@ function DynamicPage() {
     router.replace("/auth/login");
     return;
   }
-  //console.log(AllMoviesValue, "All Movies Value");
+  //////console.log(AllMoviesValue, "All Movies Value");
   return (
     <div>
       <Topbar />

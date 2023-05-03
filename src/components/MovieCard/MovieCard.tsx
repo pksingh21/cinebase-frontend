@@ -1,6 +1,6 @@
-import { Movie, getAllMoviesRequest } from "@/types/types";
+import { Actor, Movie, getAllMoviesRequest } from "@/types/types";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Paper, Typography } from "@mui/material";
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
 import RatingSmollCircle from "../RatingSmollCircle/RatingSmollCircle";
@@ -10,10 +10,12 @@ export function Card({
   title,
   itemId,
   MovieDetails,
+  ActorDetails,
 }: {
-  title: string;
-  itemId: string;
-  MovieDetails: Movie;
+  title?: string;
+  itemId?: string;
+  MovieDetails?: Movie;
+  ActorDetails?: Actor;
 }) {
   const router = useRouter();
   const styles = {
@@ -34,6 +36,20 @@ export function Card({
   function replaceSpacesWithHyphens(inputString: string): string {
     return inputString.replace(/ /g, "-");
   }
+  const [cardImageURL, setCardImageURL] = useState<string>(
+    "https://image.tmdb.org/t/p/original" +
+      (MovieDetails
+        ? MovieDetails?.poster_path!!
+        : ActorDetails?.profile_path!!)
+  );
+  useEffect(() => {
+    setCardImageURL(
+      "https://image.tmdb.org/t/p/original" +
+        (MovieDetails
+          ? MovieDetails?.poster_path!!
+          : ActorDetails?.profile_path!!)
+    );
+  }, [MovieDetails, ActorDetails]);
   return (
     <div
       role="button"
@@ -45,35 +61,42 @@ export function Card({
       }}
       tabIndex={0}
       onClick={() => {
-        //console.log("image item click");
-        router.push(
-          `/main/movie/${replaceSpacesWithHyphens(
-            MovieDetails.title + " " + MovieDetails.id
-          )}`
-        );
+        //////console.log("image item click");
+        if (MovieDetails)
+          router.push(
+            `/main/movie/${replaceSpacesWithHyphens(
+              MovieDetails.title + " " + MovieDetails.id
+            )}`
+          );
       }}
     >
       <Paper elevation={5} style={styles.paper}>
         <Image
           alt="Picture of the Movie"
-          src={
-            "https://image.tmdb.org/t/p/original" + MovieDetails.poster_path!!
-          }
+          src={cardImageURL}
+          // src={"/assets/noImage.jpg"}
+          onError={() => {
+            setCardImageURL("/assets/noImage.jpg");
+            console.log("image load failed");
+          }}
           width={160}
           height={200}
           style={styles.image}
         />
       </Paper>
-      <RatingSmollCircle value={MovieDetails.cinebase_rating * 10} />
+      {!ActorDetails && MovieDetails && (
+        <RatingSmollCircle value={MovieDetails.cinebase_rating * 10} />
+      )}
       <div>
         <ButtonBase
           style={{ textAlign: "left" }}
           onClick={() => {
-            router.push(
-              `/main/movie/${replaceSpacesWithHyphens(
-                MovieDetails.title + " " + MovieDetails.id
-              )}`
-            );
+            if (MovieDetails)
+              router.push(
+                `/main/movie/${replaceSpacesWithHyphens(
+                  MovieDetails.title + " " + MovieDetails.id
+                )}`
+              );
           }}
         >
           <Typography fontWeight={900} className="MovieCardTitle">

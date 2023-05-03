@@ -18,7 +18,7 @@ export default function HorizontalDrawer() {
     });
     if (result.status == 200) setMovieState(result.data.results);
     else {
-      //console.log("Error in getting movies");
+      //////console.log("Error in getting movies");
     }
   }
   useEffect(() => {
@@ -30,14 +30,14 @@ export default function HorizontalDrawer() {
     <div className="HorizontalDrawerComponent">
       <Grid
         container
-        direction="column"
-        justifyContent={"left"}
-        alignItems="left"
+        // direction="row"
+        // justifyContent={"left"}
+        // alignItems="left"
       >
         <Typography variant="h3" style={{ paddingBottom: "40px" }}>
           Trending
         </Typography>
-        <HorizontalScroll />
+        <HorizontalScroll whatToRender="allMovieDetails" />
       </Grid>
     </div>
   );

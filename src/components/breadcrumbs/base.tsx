@@ -56,7 +56,7 @@ export default function CustomizedBreadcrumbs(props: PropsBreadCrumbs) {
       return formattedHours || formattedMinutes;
     }
   }
-  console.log(props.genres, "props.genres");
+  ////console.log(props.genres, "props.genres");
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">
