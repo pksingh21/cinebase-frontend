@@ -1,5 +1,5 @@
 import Topbar from "@/components/TopBar/topbar";
-import { Cast, Movie, getMovieByIdRequest } from "@/types/types";
+import { Cast, Movie, genres, getMovieByIdRequest } from "@/types/types";
 import { Grid, Stack, Typography, styled } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -8,6 +8,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import SmollMovieCircle from "@/components/RatingSmollCircle/RatingSmollCircle";
 import Base from "@/components/breadcrumbs/base";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import { AllGenre, CurrentMovie } from "@/atoms/atom";
+import SingleMovieBottom from "@/components/singleMovieBottom/singleMovieBottom";
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     paddingTop: "65px",
@@ -44,17 +47,35 @@ export function extractFileName(url: string): string {
 function replaceHyphensWithWhiteSpace(inputString: string): string {
   return inputString.replace(/-/g, " ");
 }
+function getAllGenre(setGenre: SetterOrUpdater<genres[]>) {
+  async function getGenre() {
+    const reqBody = { limit: 21 };
+    const result = await axios.get("/api/genre/getAllGenre", {
+      params: reqBody,
+    });
+    if (result.status == 200) {
+      setGenre(result.data.results);
+      // console.log(result.data.results, "All Genre");
+    } else {
+      console.log("something went wrong while fetching the movie by id");
+    }
+  }
+  getGenre();
+}
 function DynamicPage() {
   const session = useSession();
   const router = useRouter();
-  const [movieCast, setMovieCast] = React.useState<Cast[]>([]);
   const [screenWidth, setScreenWidth] = React.useState(0);
+  const setGenre = useSetRecoilState(AllGenre);
+  const FinalGenre = useRecoilValue(AllGenre);
+  const [genreForMovie, setGenreForMovie] = React.useState<genres[]>([]);
   React.useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
     window.addEventListener("resize", handleResize);
     setScreenWidth(window.innerWidth);
+    getAllGenre(setGenre);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -71,10 +92,11 @@ function DynamicPage() {
         Math.abs(extractNumbers(router.query.singleMovie as string)!!)
       );
     }
-  }, [router.isReady]);
+  }, [router.isReady, FinalGenre]);
   const [AllMoviesValue, setAllMovieValue] = React.useState<
     Movie | undefined
   >();
+  const setCurrentMovie = useSetRecoilState(CurrentMovie);
   const [MovieLanguage, SetMovieLanugage] = React.useState<string>("");
   async function getMovieById(movId: number) {
     const body: getMovieByIdRequest = { MovieId: movId };
@@ -83,7 +105,8 @@ function DynamicPage() {
     });
     if (result.status == 200) {
       setAllMovieValue(result.data);
-      const baseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+      setCurrentMovie(result.data);
+      const baseURL = "https://image.tmdb.org/t/p/w1920_and_h1080_multi_faces";
       const movieLanguageCode = result.data.language;
       const body: { languageCode: string } = {
         languageCode: movieLanguageCode,
@@ -96,9 +119,18 @@ function DynamicPage() {
         const movieCast = await axios.get("/api/movies/getMovieCast", {
           params: { movie: result.data?.id!! },
         });
-        console.log(result.data, movieCast.data.results, "Movie Cast");
+        // console.log(result.data, movieCast.data.results, "Movie Cast");
 
         SetMovieLanugage(actualMovieLang.data.name);
+        const genresId = result.data.genres as number[];
+        let x = [] as genres[];
+        for (let i = 0; i < genresId.length; i++) {
+          // console.log(genresId[i] - 1);
+          // console.log(FinalGenre);
+          // console.log(FinalGenre[genresId[i] - 1], "genre id");
+          if (FinalGenre.length > 0) x.push(FinalGenre[genresId[i] - 1]);
+        }
+        setGenreForMovie(x);
       } catch (err) {
         SetMovieLanugage(movieLanguageCode);
         console.error(err, "error while fetching movie language");
@@ -187,6 +219,7 @@ function DynamicPage() {
               releaseDate={AllMoviesValue!!.release_date}
               language={MovieLanguage}
               runTime={AllMoviesValue!!.runtime!!}
+              // genres={genreForMovie}
             />
             <div style={{ paddingTop: "30px" }}>
               <Grid container>
@@ -217,6 +250,9 @@ function DynamicPage() {
             >
               {AllMoviesValue!!.tagline!!}
             </Typography>
+            <div style={{ paddingTop: "20px" }}>
+              <Base genres={genreForMovie} />
+            </div>
             <Typography
               variant="h3"
               gutterBottom
@@ -235,6 +271,7 @@ function DynamicPage() {
             </Typography>
           </Grid>
         </Grid>
+        <SingleMovieBottom />
       </Root>
     </div>
   );

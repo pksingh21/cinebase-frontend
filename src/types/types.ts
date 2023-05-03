@@ -12,7 +12,7 @@ export interface error {
 }
 export interface Movie {
   id: number;
-  tmdb_id?: bigint;
+  tmdb_id?: number;
   title: string;
   tagline?: string;
   language: string;
@@ -67,4 +67,13 @@ export interface Actor {
   biography: string;
   place_of_birth: string;
   profile_path: string;
+}
+export interface Credits {
+  id: number;
+  credits_type: string;
+  department: string;
+  job: string;
+  character: string;
+  movie: number;
+  person: number;
 }

@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { genres } from "@/types/types";
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
     theme.palette.mode === "light"
@@ -13,11 +14,11 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
       : theme.palette.grey[800];
   return {
     backgroundColor,
-    padding:"10px",
+    padding: "1px",
     height: theme.spacing(3),
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightBold,
-    fontSize: "15px",
+    fontSize: "14px",
     "&:hover, &:focus": {
       backgroundColor: emphasize(backgroundColor, 0.06),
     },
@@ -33,9 +34,10 @@ function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   console.info("You clicked a breadcrumb.");
 }
 export interface PropsBreadCrumbs {
-  releaseDate: string;
-  language: string;
-  runTime: number;
+  releaseDate?: string;
+  language?: string;
+  runTime?: number;
+  genres?: genres[];
 }
 export default function CustomizedBreadcrumbs(props: PropsBreadCrumbs) {
   function formatMovieRuntime(runtimeInMinutes: number): string {
@@ -54,19 +56,30 @@ export default function CustomizedBreadcrumbs(props: PropsBreadCrumbs) {
       return formattedHours || formattedMinutes;
     }
   }
-
+  console.log(props.genres, "props.genres");
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">
-        <StyledBreadcrumb
-          label={props.releaseDate}
-          icon={<CalendarMonthIcon fontSize="small" />}
-        />
-        <StyledBreadcrumb label={props.language} />
-        <StyledBreadcrumb
-          label={formatMovieRuntime(props.runTime)}
-          icon={<AccessTimeIcon />}
-        />
+        {props.releaseDate != undefined && (
+          <StyledBreadcrumb
+            label={props.releaseDate}
+            icon={<CalendarMonthIcon fontSize="small" />}
+          />
+        )}
+        {props.language != undefined && (
+          <StyledBreadcrumb label={props.language} />
+        )}
+        {props.runTime != undefined && (
+          <StyledBreadcrumb
+            label={formatMovieRuntime(props.runTime)}
+            icon={<AccessTimeIcon />}
+          />
+        )}
+        {props.genres != undefined &&
+          props.genres.length > 0 &&
+          props.genres.map((genre, index) => (
+            <StyledBreadcrumb key={index} label={genre.name} />
+          ))}
       </Breadcrumbs>
     </div>
   );

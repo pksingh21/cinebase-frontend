@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-async function getMovieCast(
+async function getAllGenres(
   body: getAllMoviesRequest
 ): Promise<responseObjectgetAllMovieRequest> {
   let QueryBuilder: string = "?";
@@ -15,7 +15,7 @@ async function getMovieCast(
   });
   console.log(QueryBuilder, "Query final");
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/credits/${QueryBuilder}`
+    `http://localhost:8000/api/genres/${QueryBuilder}`
   );
 
   return response.data;
@@ -27,7 +27,7 @@ export default async function handler(
   const body = req.query;
   console.log(body);
   try {
-    const result = await getMovieCast(body);
+    const result = await getAllGenres(body);
     res.status(200).json(result);
   } catch (err: any) {
     res.status(500).send(err.message);
