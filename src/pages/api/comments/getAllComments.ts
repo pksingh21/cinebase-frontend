@@ -14,8 +14,9 @@ type Data = {
 async function getAllMovieById(body: any): Promise<any> {
   let QueryBuilder: string = "?";
   Object.keys(body).forEach((key) => {
-    QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}&`;
+    QueryBuilder += `${key}=${body[key as keyof getAllMoviesRequest]}`;
   });
+  console.log(QueryBuilder,"Query Builder")
   const response = await axios.get<any>(
     `http://localhost:8000/api/reviews/${QueryBuilder}`
   );
@@ -29,7 +30,7 @@ export default async function handler(
   const final = req.query;
   try {
     const result = await getAllMovieById(final);
-    //////////console.log(result, "result post request");
+    console.log(result, "result post request");
     res.status(200).json(result);
   } catch (err: any) {
     //////////console.log("Something went wrong");

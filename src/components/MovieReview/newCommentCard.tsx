@@ -13,8 +13,8 @@ import { useSession } from "next-auth/react";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
-import { useRecoilValue } from "recoil";
-import { CurrentMovie } from "@/atoms/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { CurrentMovie, TriggerReRenderForParent } from "@/atoms/atom";
 
 const labels: { [index: string]: string } = {
   0.5: "Useless",
@@ -52,14 +52,8 @@ export default function RecipeReviewCard() {
   const session = useSession();
   const [reviewHeading, setReviewHeading] = React.useState("");
   const [reviewContent, setReviewContent] = React.useState("");
-  const [ratingNumber, setRatingNumber] = React.useState(0);
   const currentMovie = useRecoilValue(CurrentMovie);
-  //console.log(
-    // reviewHeading,
-    // reviewContent,
-    // session.data?.user.apiKey,
-    // "api key here"
-  // );
+  const [trigger, ChangeTrigger] = useRecoilState(TriggerReRenderForParent);
   async function handleSubmit() {
     const dataFinal = {
       reviewHeading: reviewHeading,
@@ -72,7 +66,6 @@ export default function RecipeReviewCard() {
         apiKey: session.data?.user.apiKey,
       },
     });
-    //console.log(userIdIndB, "user id in db");
     const result = await axios.post("/api/comments/createComments", {
       review: AxiosPayLoad,
       rating: value,
@@ -80,6 +73,10 @@ export default function RecipeReviewCard() {
       user: userIdIndB.data.pk,
       apiKey: session.data?.user.apiKey,
     });
+    setReviewContent("");
+    setReviewHeading("");
+    setValue(0);
+    ChangeTrigger(!trigger)
   }
   const [value, setValue] = React.useState<number | null>(0);
   const [hover, setHover] = React.useState(-1);

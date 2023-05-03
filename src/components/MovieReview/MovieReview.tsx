@@ -5,25 +5,29 @@ import { Review } from "@/types/types";
 import React from "react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import { CurrentMovie } from "@/atoms/atom";
+import { CurrentMovie, TriggerReRenderForParent } from "@/atoms/atom";
 export default function MovieReview() {
   const [AllReviews, setAllReviews] = React.useState<Review[]>([]);
   const MovieID = useRecoilValue(CurrentMovie);
+  const triggerFromChild = useRecoilValue(TriggerReRenderForParent);
   React.useEffect(() => {
     const getReviews = async () => {
       const res = await axios.get(
         `http://localhost:3000/api/comments/getAllComments`,
         {
           params: {
-            movieId: MovieID.id,
+            movie: MovieID.id,
           },
         }
       );
       const data = res.data;
+      console.log(data, "data");
       setAllReviews(data.results);
     };
     getReviews();
-  }, [MovieID]);
+  }, [MovieID, triggerFromChild]);
+  React.useEffect(() => {}, [AllReviews]);
+  console.log(AllReviews, "all reviews");
   return (
     <div>
       <Typography
@@ -40,7 +44,9 @@ export default function MovieReview() {
           <NewCommentCard />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <GenericCommentCard />
+          {AllReviews.map((Review) => {
+            return <GenericCommentCard data={Review} />;
+          })}
         </Grid>
       </Grid>
     </div>

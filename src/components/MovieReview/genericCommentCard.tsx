@@ -1,3 +1,4 @@
+import { Review } from "@/types/types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
@@ -7,6 +8,7 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
+import { data } from "autoprefixer";
 import { useSession } from "next-auth/react";
 import * as React from "react";
 
@@ -25,34 +27,29 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props: { data: Review }) {
   const [expanded, setExpanded] = React.useState(false);
-
+  const obj = JSON.parse(props.data.review!!);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const [userName, setUserName] = React.useState("");
   const session = useSession();
   return (
-    <Card>
+    <Card style={{ marginTop: "4px" }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
             {session.data?.user?.image}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={session.data?.user?.name}
-        subheader="September 14, 2016"
+        subheader={obj.Date}
       />
+      <CardHeader variant="body1">{obj.reviewHeading}</CardHeader>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {obj.reviewContent}
         </Typography>
       </CardContent>
     </Card>

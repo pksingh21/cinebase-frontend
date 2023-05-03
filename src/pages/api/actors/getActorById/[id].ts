@@ -22,7 +22,6 @@ export default async function handler(
   const body = req.query;
   try {
     const result = await getMovieCast(body);
-    console.log(result, "result of indivisual actor");
     res.status(200).json(result);
   } catch (err: any) {
     console.log(err);

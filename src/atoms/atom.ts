@@ -59,3 +59,7 @@ export const CurrentMovie = atom<Movie>({
     genres: [],
   },
 });
+export const TriggerReRenderForParent = atom<boolean>({
+  key: "TriggerReRenderForParent",
+  default: false,
+});
