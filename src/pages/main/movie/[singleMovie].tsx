@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import MovieReview from "@/components/MovieReview/MovieReview";
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     paddingTop: "65px",
@@ -220,17 +221,7 @@ function DynamicPage() {
                     value={AllMoviesValue.cinebase_rating * 10}
                   />
                 </Grid>
-                <Grid item xs={6} style={{ marginTop: "-10px" }}>
-                  <Typography
-                    variant="h6"
-                    fontWeight={900}
-                    gutterBottom
-                    color={`white`}
-                    display={`inline`}
-                  >
-                    User Review
-                  </Typography>
-                </Grid>
+                <Grid item xs={6} style={{ marginTop: "-10px" }}></Grid>
               </Grid>
             </div>
             <Typography
@@ -264,6 +255,7 @@ function DynamicPage() {
           </Grid>
         </Grid>
         <SingleMovieBottom />
+        <MovieReview />
       </Root>
     </div>
   );

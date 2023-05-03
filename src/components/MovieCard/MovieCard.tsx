@@ -1,21 +1,25 @@
-import { Actor, Movie, getAllMoviesRequest } from "@/types/types";
+import { Actor, Credits, Movie, getAllMoviesRequest } from "@/types/types";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Paper, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
 import RatingSmollCircle from "../RatingSmollCircle/RatingSmollCircle";
 import { ButtonBase } from "@mui/material";
 import { useRouter } from "next/router";
+import { CreditsForMovie } from "@/atoms/atom";
+import { useRecoilValue } from "recoil";
 export function Card({
   title,
   itemId,
   MovieDetails,
   ActorDetails,
+  credits,
 }: {
   title?: string;
   itemId?: string;
   MovieDetails?: Movie;
   ActorDetails?: Actor;
+  credits: Credits;
 }) {
   const router = useRouter();
   const styles = {
@@ -50,6 +54,7 @@ export function Card({
           : ActorDetails?.profile_path!!)
     );
   }, [MovieDetails, ActorDetails]);
+
   return (
     <div
       role="button"
@@ -89,7 +94,6 @@ export function Card({
       )}
       <div>
         <ButtonBase
-          style={{ textAlign: "left" }}
           onClick={() => {
             if (MovieDetails)
               router.push(
@@ -99,9 +103,14 @@ export function Card({
               );
           }}
         >
-          <Typography fontWeight={900} className="MovieCardTitle">
-            {title}
-          </Typography>
+          <Stack>
+            <Typography fontWeight={900} className="MovieCardTitle">
+              {title}
+            </Typography>
+            {ActorDetails && !MovieDetails && (
+              <Typography fontWeight={900}>as {credits.character}</Typography>
+            )}
+          </Stack>
         </ButtonBase>
       </div>
     </div>

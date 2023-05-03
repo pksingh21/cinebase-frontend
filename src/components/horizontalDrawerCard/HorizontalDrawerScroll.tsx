@@ -105,6 +105,7 @@ export default function HorizontalScroll(props: { whatToRender: string }) {
                   } // NOTE: itemId is required for track items
                   MovieDetails={"title" in Movies ? Movies : undefined}
                   ActorDetails={"name" in Movies ? Movies : undefined}
+                  credits={credits[indx]}
                 />
               </div>
             ))}

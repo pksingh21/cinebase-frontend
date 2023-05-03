@@ -70,17 +70,7 @@ export default function SingleMovieBottom() {
           style={{ paddingLeft: screenWidth >= 900 ? "6vw" : "0vw" }}
           textAlign={screenWidth <= 900 ? "center" : "left"}
         >
-          <div style={{ paddingTop: "30px" }}>
-            <Typography
-              variant="h6"
-              fontWeight={900}
-              gutterBottom
-              color={`white`}
-              display={`inline`}
-            >
-              User Review will come here
-            </Typography>
-          </div>
+          <div style={{ paddingTop: "30px" }}></div>
           <Typography
             variant="h6"
             gutterBottom
