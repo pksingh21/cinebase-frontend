@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { genres } from "@/types/types";
-const StyledBreadcrumb = styled(Chip)(({ theme }) => {
+export const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
     theme.palette.mode === "light"
       ? theme.palette.grey[100]
@@ -56,7 +56,7 @@ export default function CustomizedBreadcrumbs(props: PropsBreadCrumbs) {
       return formattedHours || formattedMinutes;
     }
   }
-  //////console.log(props.genres, "props.genres");
+  ////////console.log(props.genres, "props.genres");
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">

@@ -20,12 +20,12 @@ export default async function handler(
   res: NextApiResponse<responseObjectgetAllMovieRequest>
 ) {
   const body = req.query;
-  ////console.log(req);
   try {
     const result = await getMovieCast(body);
-    // ////console.log(result,"Result for actor");
+    console.log(result, "result of indivisual actor");
     res.status(200).json(result);
   } catch (err: any) {
+    console.log(err);
     res.status(500).send(err.message);
   }
 }

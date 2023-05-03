@@ -56,9 +56,9 @@ function getAllGenre(setGenre: SetterOrUpdater<genres[]>) {
     });
     if (result.status == 200) {
       setGenre(result.data.results);
-      // //////console.log(result.data.results, "All Genre");
+      // ////////console.log(result.data.results, "All Genre");
     } else {
-      //////console.log("something went wrong while fetching the movie by id");
+      ////////console.log("something went wrong while fetching the movie by id");
     }
   }
   getGenre();
@@ -130,7 +130,7 @@ function DynamicPage() {
       }
       setPosterPath(baseURL + result.data.poster_path!!);
     } else {
-      //////console.log("something went wrong while fetching the movie by id");
+      ////////console.log("something went wrong while fetching the movie by id");
     }
   }
   const [posterPath, setPosterPath] = React.useState("");
@@ -144,7 +144,7 @@ function DynamicPage() {
     router.replace("/auth/login");
     return;
   }
-  ////////console.log(AllMoviesValue, "All Movies Value");
+  //////////console.log(AllMoviesValue, "All Movies Value");
   return (
     <div>
       <Topbar />

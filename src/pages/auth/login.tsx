@@ -122,7 +122,7 @@ const Login = () => {
               fullWidth
               onClick={async (e) => {
                 e.preventDefault();
-                ////////console.log(CredentialAtomState, "credentials being sent");
+                //////////console.log(CredentialAtomState, "credentials being sent");
                 const result = await signIn("credentials", {
                   redirect: false,
                   ...CredentialAtomState,

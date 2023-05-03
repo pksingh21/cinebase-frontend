@@ -29,10 +29,10 @@ export default async function handler(
   const final = req.query;
   try {
     const result = await getAllMovieById(final);
-    ////////console.log(result, "result post request");
+    //////////console.log(result, "result post request");
     res.status(200).json(result);
   } catch (err: any) {
-    ////////console.log("Something went wrong");
+    //////////console.log("Something went wrong");
     res.status(500).json(err.message);
   }
 }

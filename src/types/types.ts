@@ -58,11 +58,12 @@ export interface Cast {
   personId: number;
 }
 export interface Actor {
+  id: number;
   tmbd_id: number;
   name: string;
   gender: number;
-  birthday: Date;
-  deathday: Date;
+  birthday: string;
+  deathday: string;
   known_for_department: string;
   biography: string;
   place_of_birth: string;

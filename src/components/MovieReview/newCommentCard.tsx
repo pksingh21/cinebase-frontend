@@ -54,12 +54,12 @@ export default function RecipeReviewCard() {
   const [reviewContent, setReviewContent] = React.useState("");
   const [ratingNumber, setRatingNumber] = React.useState(0);
   const currentMovie = useRecoilValue(CurrentMovie);
-  console.log(
-    reviewHeading,
-    reviewContent,
-    session.data?.user.apiKey,
-    "api key here"
-  );
+  //console.log(
+    // reviewHeading,
+    // reviewContent,
+    // session.data?.user.apiKey,
+    // "api key here"
+  // );
   async function handleSubmit() {
     const dataFinal = {
       reviewHeading: reviewHeading,
@@ -72,7 +72,7 @@ export default function RecipeReviewCard() {
         apiKey: session.data?.user.apiKey,
       },
     });
-    console.log(userIdIndB, "user id in db");
+    //console.log(userIdIndB, "user id in db");
     const result = await axios.post("/api/comments/createComments", {
       review: AxiosPayLoad,
       rating: value,

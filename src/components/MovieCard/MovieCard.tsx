@@ -8,6 +8,7 @@ import { ButtonBase } from "@mui/material";
 import { useRouter } from "next/router";
 import { CreditsForMovie } from "@/atoms/atom";
 import { useRecoilValue } from "recoil";
+import { AcUnitOutlined } from "@mui/icons-material";
 export function Card({
   title,
   itemId,
@@ -54,7 +55,7 @@ export function Card({
           : ActorDetails?.profile_path!!)
     );
   }, [MovieDetails, ActorDetails]);
-
+  //console.log("credits : ", credits,ActorDetails);
   return (
     <div
       role="button"
@@ -66,7 +67,7 @@ export function Card({
       }}
       tabIndex={0}
       onClick={() => {
-        ////////console.log("image item click");
+        //////////console.log("image item click");
         if (MovieDetails)
           router.push(
             `/main/movie/${replaceSpacesWithHyphens(
@@ -82,7 +83,7 @@ export function Card({
           // src={"/assets/noImage.jpg"}
           onError={() => {
             setCardImageURL("/assets/noImage.jpg");
-            //console.log("image load failed");
+            ////console.log("image load failed");
           }}
           width={160}
           height={200}
@@ -101,6 +102,9 @@ export function Card({
                   MovieDetails.title + " " + MovieDetails.id
                 )}`
               );
+            if (ActorDetails) {
+              router.push(`/main/actor/${ActorDetails.id}`);
+            }
           }}
         >
           <Stack>
