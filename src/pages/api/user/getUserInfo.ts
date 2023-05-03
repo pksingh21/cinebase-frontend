@@ -4,12 +4,12 @@ import {
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-async function getMovieCast(body: {
+async function getUserInfo(body: {
   [key: string]: string | string[] | undefined;
 }): Promise<responseObjectgetAllMovieRequest> {
   const QueryBuilder = body.id;
   const response = await axios.get<responseObjectgetAllMovieRequest>(
-    `http://localhost:8000/api/people/${QueryBuilder}`
+    `http://localhost:8000/api/profiles/${QueryBuilder}`
   );
 
   return response.data;
@@ -20,7 +20,7 @@ export default async function handler(
 ) {
   const body = req.query;
   try {
-    const result = await getMovieCast(body);
+    const result = await getUserInfo(body);
     res.status(200).json(result);
   } catch (err: any) {
     console.log(err);
